@@ -1,0 +1,16 @@
+[submodule "Vendor/SDL"]
+	path = Vendor/SDL
+	url = https://github.com/libsdl-org/SDL.git
+	branch = main
+[submodule "Vendor/ImGui"]
+	path = Vendor/ImGui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "Vendor/glm"]
+	path = Vendor/glm
+	url = https://github.com/g-truc/glm.git
+	branch = main
+[submodule "Vendor/box2d"]
+	path = Vendor/box2d
+	url = https://github.com/erincatto/box2d.git
+	branch = main

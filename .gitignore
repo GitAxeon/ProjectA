@@ -1,5 +1,9 @@
 #visual studio
 .vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
 #visual studio code
 .vscode/
 
