@@ -14,3 +14,7 @@
 	path = Vendor/box2d
 	url = https://github.com/erincatto/box2d.git
 	branch = main
+[submodule "Vendor/SDL_mixer"]
+	path = Vendor/SDL_mixer
+	url = https://github.com/libsdl-org/SDL_mixer.git
+	branc = main
