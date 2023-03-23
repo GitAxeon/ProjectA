@@ -11,15 +11,21 @@ file(GLOB source-files
 
 add_executable(A ${source-files})
     
-target_include_directories(A PRIVATE ../Vendor/SDL/include)
-target_include_directories(A PRIVATE ../Vendor/SDL_mixer/include)
-target_include_directories(A PRIVATE ../Vendor/ImGui/)
-target_include_directories(A PRIVATE ../Vendor/glm/)
-target_include_directories(A PRIVATE ../Vendor/box2d/include/)
+target_include_directories(
+    A PRIVATE 
+    ../Vendor/SDL/include
+    ../Vendor/SDL_mixer/include
+    ../Vendor/ImGui/
+    ../Vendor/glm/
+    ../Vendor/box2d/include/
+)
 
-target_link_libraries(A PRIVATE SDL3-static)
-target_link_libraries(A PRIVATE SDL3_mixer)
-target_link_libraries(A PRIVATE box2d)
+target_link_libraries(
+    A PRIVATE
+    SDL3-static
+    SDL3_mixer
+    box2d
+)
 
 set(RESOURCE_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/resource)
 
