@@ -13,9 +13,10 @@ add_executable(A ${source-files})
     
 target_include_directories(
     A PRIVATE 
-    ../Vendor/SDL/include
-    ../Vendor/SDL_mixer/include
+    ../Vendor/SDL/include/
+    ../Vendor/SDL_mixer/include/
     ../Vendor/ImGui/
+    ../Vendor/ImGui/backends/
     ../Vendor/glm/
     ../Vendor/box2d/include/
     ../Vendor/stb/
