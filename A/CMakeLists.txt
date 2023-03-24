@@ -18,6 +18,7 @@ target_include_directories(
     ../Vendor/ImGui/
     ../Vendor/glm/
     ../Vendor/box2d/include/
+    ../Vendor/stb/
 )
 
 target_link_libraries(

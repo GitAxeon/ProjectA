@@ -1,6 +1,7 @@
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_mixer.h"
 #include "box2d/box2d.h"
+#include "stb_image.h"
 
 #include <iostream>
 
