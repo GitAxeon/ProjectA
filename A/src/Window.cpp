@@ -1,6 +1,7 @@
 #include "Window.hpp"
 
 #include <SDL3/SDL_events.h>
+#include <SDL3/SDL_hints.h>
 #include <imgui.h>
 #include <backends/imgui_impl_sdl3.h>    
 
@@ -14,6 +15,7 @@ namespace ProjectA
         m_Width = info.Width;
         m_Height = info.Height;
 
+        SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
         m_Window = SDL_CreateWindow(m_Title.c_str(), m_Width, m_Height, SDL_WINDOW_RESIZABLE);
         
         assert(m_Window);

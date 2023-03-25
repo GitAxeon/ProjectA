@@ -6,13 +6,26 @@ set(CMAKE_CXX_STANDARD 20)
 file(GLOB source-files
     "src/*.cpp" 
     "src/*.hpp" 
-    "src/*.h" 
+    "src/*.h"
 )
 
-add_executable(A ${source-files})
+file(GLOB imgui-source
+    "../Vendor/ImGui/*.cpp"
+    "../Vendor/ImGui/*.h"
+    "../Vendor/ImGui/backends/imgui_impl_sdl3.h"
+    "../Vendor/ImGui/backends/imgui_impl_sdl3.cpp"
+    "../Vendor/ImGui/backends/imgui_impl_sdlrenderer.h"
+    "../Vendor/ImGui/backends/imgui_impl_sdlrenderer.cpp"
+)
+
+add_executable(A ${source-files} ${imgui-source})
+
+add_compile_definitions(
+    SDL_ENABLE_OLD_NAMES
+)
     
 target_include_directories(
-    A PRIVATE 
+    A PRIVATE
     ../Vendor/SDL/include/
     ../Vendor/SDL_mixer/include/
     ../Vendor/ImGui/
