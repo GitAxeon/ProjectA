@@ -1,29 +1,63 @@
+#pragma once
+
 #include "Scopes.hpp"
 #include "Window.hpp"
 #include "Rendering.hpp"
 
 #include <vector>
 
-namespace ProjectA::Application
+namespace ProjectA
 {
-    std::vector<Owned<Window>> g_Windows;
-    Configuration g_Configuration;
-
     struct Configuration
     {
         Render::API RenderingAPI;
-        bool EnableMultiThread;
+        bool EnableMultiThreading;
 
         Configuration() 
-            : RenderingAPI(Render::API::SDL), EnableMultiThread(false) { }
+            : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
     };
 
-    bool MultiThreadingEnabled() { return g_Configuration.EnableMultiThread; }
+    std::vector<Owned<Window>> g_Windows;
+    Configuration g_Configuration;
 
-    void Configure(const Configuration& configuration)
-    {
-        g_Configuration = configuration;
-    }
-
-    int Run();
+    bool Init();
+    bool Close();
+    bool MultiThreadingEnabled();
+    void Configure(const Configuration& configuration);
+    Configuration GetConfiguration();
+    
+    std::vector<Owned<Window>>& GetWindows();
 }
+
+// namespace ProjectA
+// {
+//     static Application g_Application;
+
+//     class Application
+//     {
+//     public:
+//         struct Configuration
+//         {
+//             Render::API RenderingAPI;
+//             bool EnableMultiThreading;
+
+//             Configuration() 
+//                 : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
+//         };
+
+//     public:
+//         Application();
+//         ~Application();
+
+//         bool Init();
+//         bool MultiThreadingEnabled() const { return m_Configuration.EnableMultiThreading; }
+//         void Configure(const Configuration& configuration);
+//         Configuration GetConfiguration() const;
+        
+//         std::vector<Owned<Window>>& GetWindows();
+
+//     private:
+//         std::vector<Owned<Window>> m_Windows;
+//         Configuration m_Configuration;
+//     };
+// }

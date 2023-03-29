@@ -1,12 +1,10 @@
-
-
-#include "Color.hpp"
-#include "Scopes.hpp"
+#include "Application.hpp"
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
+
     // ProjectA::WindowInfo info;
     // info.Name = "My app";
     // info.Width = 700;
@@ -83,5 +81,20 @@ int main(int argc, char** argv)
         return ProjectA::Run();
     */
 
+    ProjectA::Configuration config;
+    config.RenderingAPI = ProjectA::Render::API::SDL;
+    config.EnableMultiThreading = false;
+
+    ProjectA::Configure(config);
+    ProjectA::Init();
+
+    ProjectA::Owned<ProjectA::Window> MainWindow = ProjectA::Window::Create("Main window", 700, 320);
+    MainWindow.PushLayer(new EpicLayer);
+
+    ProjectA::Owned<ProjectA::Window> EditorWindow = ProjectA::Window::Create("Editor window", 700, 320);
+    EditorWindow.PushLayer(new TurboLayer);
+
+    ProjectA::Close();
+    
     std::cin.get();    
 }
