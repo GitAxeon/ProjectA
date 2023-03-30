@@ -4,7 +4,7 @@
 #include "Window.hpp"
 #include "Rendering.hpp"
 
-#include <vector>
+#include <forward_list>
 
 namespace ProjectA
 {
@@ -17,47 +17,16 @@ namespace ProjectA
             : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
     };
 
-    std::vector<Owned<Window>> g_Windows;
-    Configuration g_Configuration;
+    // static std::vector<Window*> g_Windows;
+    // static Configuration g_Configuration;
+    // static bool g_KeepOpen = true;
 
-    bool Init();
-    bool Close();
-    bool MultiThreadingEnabled();
     void Configure(const Configuration& configuration);
+    bool Init();
+    int Run();
+    void Deinit();
+
+    bool MultiThreadingEnabled();
     Configuration GetConfiguration();
-    
-    std::vector<Owned<Window>>& GetWindows();
+    std::forward_list<Window*>& GetWindows();
 }
-
-// namespace ProjectA
-// {
-//     static Application g_Application;
-
-//     class Application
-//     {
-//     public:
-//         struct Configuration
-//         {
-//             Render::API RenderingAPI;
-//             bool EnableMultiThreading;
-
-//             Configuration() 
-//                 : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
-//         };
-
-//     public:
-//         Application();
-//         ~Application();
-
-//         bool Init();
-//         bool MultiThreadingEnabled() const { return m_Configuration.EnableMultiThreading; }
-//         void Configure(const Configuration& configuration);
-//         Configuration GetConfiguration() const;
-        
-//         std::vector<Owned<Window>>& GetWindows();
-
-//     private:
-//         std::vector<Owned<Window>> m_Windows;
-//         Configuration m_Configuration;
-//     };
-// }

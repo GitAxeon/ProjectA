@@ -3,8 +3,6 @@ project(X)
 
 set(CMAKE_CXX_STANDARD 20)
 
-message("bruh")
-
 file(GLOB source-files
     "src/*.cpp" 
     "src/*.hpp" 

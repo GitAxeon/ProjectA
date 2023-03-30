@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Layer.hpp"
+#include "LayerStack.hpp"
+#include "Rendering.hpp"
 
 #include <SDL3/SDL_video.h>
+#include <SDL3/SDL_events.h>
 
 #include <string>
-
-extern bool g_KeepOpen;
 
 namespace ProjectA
 {
@@ -31,30 +31,29 @@ namespace ProjectA
         Window(const WindowInfo& info);
         ~Window();
 
-        std::string Title() const { return m_Title; }
-        unsigned int Width() const { return m_Width; }
-        unsigned int Height() const { return m_Height; }
+        std::string Title() const { return m_WindowInfo.Name; }
+        unsigned int Width() const { return m_WindowInfo.Width; }
+        unsigned int Height() const { return m_WindowInfo.Height; }
         bool IsOpen() const { return m_IsOpen; }
-
-        void DispatchEvents();
-        void Close();   
-
+        bool ShouldClose() const { return !m_IsOpen; }
+        LayerStack& GetLayerStack() { return m_Layers; };
         SDL_Window* GetSDLWindow() const { return m_SDLWindow; }
 
+        void HandleEvent(const SDL_Event& event);
+        void DispatchEvents();
+        void UpdateLayers();
+        void Close();   
         void Resize(unsigned int width, unsigned int height); 
-
-        std::vector<Owned<Layer>>& GetLayers() { return Layers; };
+        
+        static Window* Create(const WindowInfo& info);
+        static void AddLayer(Window* window, Layer* layer);
 
     private:
         SDL_Window* m_SDLWindow;
 
-        std::string m_Title;
-        unsigned int m_Width;
-        unsigned int m_Height;
-
+        WindowInfo m_WindowInfo;
         bool m_IsOpen = true;
         
-        std::vector<Owned<Layer>> Layers;
-        // Owned<GraphicsContext> m_Context;
+        LayerStack m_Layers;
     };
 }

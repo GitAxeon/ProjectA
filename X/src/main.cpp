@@ -1,44 +1,10 @@
-#include "Application.hpp"
+#include "A.hpp"
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-
-    // ProjectA::WindowInfo info;
-    // info.Name = "My app";
-    // info.Width = 700;
-    // info.Height = 320;
-    // info.RenderingAPI = RenderAPI::SDL;
-    // ProjectA::Window window;
-
-
-    /*
-        ProjectA::Application::Configuration config;
-        config.RenderingAPI = ProjectA::RenderAPI::SDL;
-        config.EnableMultiThread = true;
-
-        ProjectA::Configure(config)
-
-        ProjectA::Window ProjectA::Window::Create("bruh", 700, 320, ProjectA::RenderAPI::SDL);
-        
-        ProjectA::Input::Handle(EvenType, Window, []() {
-            
-            Delegate<Type, Param>(Event []() {
-                
-            });
-
-            Delegate<Type, Param>(Event []() {
-
-            });
-        });
-
-        ProjectA::Window::OnUpdate(Window, []() {
-
-        });
-
-        // 
-
+    /* 
         class Game::GameLayer : public ProjectA::Input::Layer
         {
             TestLayer() { }
@@ -81,6 +47,24 @@ int main(int argc, char** argv)
         return ProjectA::Run();
     */
 
+    class GameLayer : public ProjectA::Layer
+    {    
+        void OnAttach() override
+        {
+            std::cout << "Attached\n";
+        }
+
+        void OnUpdate() override
+        {
+            // std::cout << "I am gamelayer wooo\n";
+        }
+
+        void OnRender() override
+        {
+            // std::cout << "#HELP I TRYING RENDER\n";
+        }
+    };
+
     ProjectA::Configuration config;
     config.RenderingAPI = ProjectA::Render::API::SDL;
     config.EnableMultiThreading = false;
@@ -88,13 +72,16 @@ int main(int argc, char** argv)
     ProjectA::Configure(config);
     ProjectA::Init();
 
-    ProjectA::Owned<ProjectA::Window> MainWindow = ProjectA::Window::Create("Main window", 700, 320);
-    MainWindow.PushLayer(new EpicLayer);
+    ProjectA::Window* MainWindow = ProjectA::Window::Create({"Main window", 700, 320});
+    ProjectA::Window::AddLayer(MainWindow, new GameLayer);
 
-    ProjectA::Owned<ProjectA::Window> EditorWindow = ProjectA::Window::Create("Editor window", 700, 320);
-    EditorWindow.PushLayer(new TurboLayer);
+    ProjectA::Window* EditorWindow = ProjectA::Window::Create({"Editor window", 700, 320});
+    ProjectA::Window::AddLayer(EditorWindow, new GameLayer);
 
-    ProjectA::Close();
+    ProjectA::Run();
+    
+    ProjectA::Deinit();
+    std::cout << "HELP\n";
     
     std::cin.get();    
 }
