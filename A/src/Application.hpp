@@ -17,14 +17,15 @@ namespace ProjectA
             : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
     };
 
-    // static std::vector<Window*> g_Windows;
-    // static Configuration g_Configuration;
-    // static bool g_KeepOpen = true;
-
     void Configure(const Configuration& configuration);
     bool Init();
-    int Run();
     void Deinit();
+    int Run();
+
+    bool DispatchEvents();
+    bool DispatchEvent(const SDL_Event& event);
+    void ReleaseClosedWindows();
+    void ReleaseWindows();
 
     bool MultiThreadingEnabled();
     Configuration GetConfiguration();

@@ -45,77 +45,94 @@ namespace ProjectA
     {
         while(g_WindowCount > 0)
         {
-            std::cout << g_WindowCount << std::endl;
-            bool removeClosedWindows = false;
-
-            SDL_Event e;
-            while(SDL_PollEvent(&e))
-            {
-                SDL_WindowID id = e.window.windowID;
-
-                for(auto window : g_Windows)
-                {
-                    if(SDL_GetWindowID(window->GetSDLWindow()) == id)
-                    {
-                        window->HandleEvent(e);
-
-                        if(window->ShouldClose())
-                            removeClosedWindows = true;
-
-                        break;
-                    }
-                }
-            }
+            bool windowRequestedClose = DispatchEvents();
 
             for(auto window : g_Windows)
-            {
-                //window->DispatchEvents();
-                window->UpdateLayers();
-            }
+            for(auto layer : window->GetLayerStack())
+                 layer->OnRender();
+
 
             for(auto window : g_Windows)
-            {
-                for(auto layer : window->GetLayerStack())
-                {
-                    layer->OnRender();
-                }
-            }
+            for(auto layer : window->GetLayerStack())
+                layer->OnRender();
 
             for(auto window : g_Windows)
-            {
-                for(auto layer : window->GetLayerStack())
-                {
-                    layer->OnUIRender();
-                }
-            }
+            for(auto layer : window->GetLayerStack())
+                layer->OnUIRender();
 
-            //std::remove_if(g_Windows.begin(), g_Windows.end(), [](Window* w) { return !w->IsOpen(); });
 
-            if(removeClosedWindows)
-            {
-                auto previous = g_Windows.before_begin();
-                for(auto it = g_Windows.begin(); it != g_Windows.end(); it++)
-                {
-                    if((*it)->ShouldClose())
-                    {
-                        delete (*it);
-                        it = g_Windows.erase_after(previous);
-                        std::cout << "Removed window uwu" << std::endl;
-                        g_WindowCount--;
-                    }
-                    else
-                    {
-                        previous = it;
-                        it++;
-                    }
-                }
-            }
+            if(windowRequestedClose)
+                ReleaseClosedWindows();
         }
 
         return 0;
     }
     
     void Deinit()
+    {   
+        ReleaseWindows();
+
+        SDL_Quit();
+        Mix_CloseAudio();
+    }
+
+    bool DispatchEvents()
+    {
+        int windowCloseRequested = 0;
+
+        SDL_Event e;
+        while(SDL_PollEvent(&e))
+        {
+            if(DispatchEvent(e))
+                windowCloseRequested++;
+        }
+
+        return windowCloseRequested;
+    }
+
+    bool DispatchEvent(const SDL_Event& event)
+    {
+        bool windowRequestedClose = false;
+        SDL_WindowID id = event.window.windowID;
+
+        for(auto window : g_Windows)
+        {
+            if(SDL_GetWindowID(window->GetSDLWindow()) == id)
+            {
+                window->HandleEvent(event);
+
+                if(window->ShouldClose())
+                    windowRequestedClose = true;
+
+                break;
+            }
+        }
+
+        return windowRequestedClose;
+    }
+
+    void ReleaseClosedWindows()
+    {
+        auto previous = g_Windows.before_begin();
+        auto it = g_Windows.begin();
+        auto end = g_Windows.end();
+
+        while(it != end)
+        {
+            if((*it)->ShouldClose())
+            {
+                delete (*it);
+                it = g_Windows.erase_after(previous);
+                g_WindowCount--;
+                continue;
+            }
+
+            previous = it;
+            it++;
+        }
+    }
+
+    void ReleaseWindows()
     {
         for(Window* window : g_Windows)
         {
@@ -123,8 +140,5 @@ namespace ProjectA
         }
 
         g_Windows.clear();
-
-        SDL_Quit();
-        Mix_CloseAudio();
     }
 }

@@ -38,15 +38,14 @@ namespace ProjectA
         bool ShouldClose() const { return !m_IsOpen; }
         LayerStack& GetLayerStack() { return m_Layers; };
         SDL_Window* GetSDLWindow() const { return m_SDLWindow; }
-
-        void HandleEvent(const SDL_Event& event);
-        void DispatchEvents();
-        void UpdateLayers();
         void Close();   
-        void Resize(unsigned int width, unsigned int height); 
         
         static Window* Create(const WindowInfo& info);
         static void AddLayer(Window* window, Layer* layer);
+        void Resize(unsigned int width, unsigned int height);
+
+        void HandleEvent(const SDL_Event& event);
+        void UpdateLayers();
 
     private:
         SDL_Window* m_SDLWindow;
@@ -55,5 +54,5 @@ namespace ProjectA
         bool m_IsOpen = true;
         
         LayerStack m_Layers;
-    };
+    }; 
 }

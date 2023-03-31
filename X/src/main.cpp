@@ -1,60 +1,18 @@
 #include "A.hpp"
+#include "WindowHandler.hpp"
 
 #include <iostream>
 
 int main(int argc, char** argv)
 {
-    /* 
-        class Game::GameLayer : public ProjectA::Input::Layer
-        {
-            TestLayer() { }
-
-            OnAttach() { }
-
-            OnDetach() { }
-            
-            OnEvent(const Event& e)
-            {
-                Delegate<EventType>(e)
-                {
-
-                }
-
-                Delegate<OtherEventType>(e)
-                {
-
-                }
-            }
-            
-            OnUpdate() { }
-
-            OnRender() { }
-            OnUIRender() { }
-        };
-
-        ProjectA::Application::Configuration config;
-        config.RenderingAPI = ProjectA::RenderAPI::SDL;
-        config.EnableMultiThread = false;
-
-        ProjectA::Configure(config)
-
-        ProjectA::Window MainWindow = ProjectA::Window::Create("Main window", 700, 320);
-        MainWindow::PushLayer(new Game::GameLayer);
-
-        ProjectA::Window EditorWindow = ProjectA::Window::Create("Editor window", 700, 320);
-        EditorWindow.PushLayer(new Game::EditorLayer);
-
-        return ProjectA::Run();
-    */
-
-    class GameLayer : public ProjectA::Layer
+    class DemoLayer : public ProjectA::Layer
     {    
         void OnAttach() override
         {
             std::cout << "Attached\n";
         }
 
-        void OnUpdate() override
+        void OnUpdate(float deltaTime) override
         {
             // std::cout << "I am gamelayer wooo\n";
         }
@@ -63,25 +21,51 @@ int main(int argc, char** argv)
         {
             // std::cout << "#HELP I TRYING RENDER\n";
         }
+
+        void OnEvent(const SDL_Event& e)
+        {
+            if(e.type == SDL_EVENT_KEY_DOWN && e.key.keysym.sym == SDLK_p)
+            {
+                // ProjectA::Window* wnd = ProjectA::Window::Create({ "Test window", 700, 320 });
+                ProjectA::Window* wnd = ProjectA::WindowHandler::GetInstance()->CreateWindow({ "Test window", 700, 320 }); 
+                ProjectA::Window::AddLayer(wnd, new DemoLayer);
+            }
+        }
     };
 
-    ProjectA::Configuration config;
-    config.RenderingAPI = ProjectA::Render::API::SDL;
-    config.EnableMultiThreading = false;
+    // ProjectA::Configuration config;
+    // config.RenderingAPI = ProjectA::Render::API::SDL;
+    // config.EnableMultiThreading = false;
 
-    ProjectA::Configure(config);
+    // ProjectA::Configure(config);
+    // ProjectA::Init();
+
+    // ProjectA::Window* MainWindow = ProjectA::Window::Create({"Main window", 700, 320});
+    // ProjectA::Window::AddLayer(MainWindow, new DemoLayer);
+
+    // ProjectA::Window* EditorWindow = ProjectA::Window::Create({"Editor window", 700, 320});
+    // ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
+
+    // ProjectA::Run();
+    
+    // ProjectA::Deinit();
+
     ProjectA::Init();
 
-    ProjectA::Window* MainWindow = ProjectA::Window::Create({"Main window", 700, 320});
-    ProjectA::Window::AddLayer(MainWindow, new GameLayer);
+    ProjectA::WindowHandler::Configuration config;
+    config.EnableMultiThreading = false;
+    config.RenderingAPI = ProjectA::Render::API::SDL;
 
-    ProjectA::Window* EditorWindow = ProjectA::Window::Create({"Editor window", 700, 320});
-    ProjectA::Window::AddLayer(EditorWindow, new GameLayer);
+    ProjectA::WindowHandler* windowHandler = ProjectA::WindowHandler::GetInstance();
+    windowHandler->Configure(config);
 
-    ProjectA::Run();
-    
+    ProjectA::Window* MainWindow = windowHandler->CreateWindow({ "Main window", 700, 320 });
+    ProjectA::Window::AddLayer(MainWindow, new DemoLayer);
+
+    ProjectA::Window* EditorWindow = windowHandler->CreateWindow({ "Editor window", 700, 320 });
+    ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
+
+    windowHandler->Run();
+
     ProjectA::Deinit();
-    std::cout << "HELP\n";
-    
-    std::cin.get();    
 }

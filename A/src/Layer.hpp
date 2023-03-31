@@ -10,7 +10,7 @@ namespace ProjectA
         virtual void OnAttach()                 {}
 
         virtual void OnEvent(const SDL_Event&)  {}
-        virtual void OnUpdate()                 {}
+        virtual void OnUpdate(float deltaTime)  {}
 
         virtual void OnRender()                 {}
         virtual void OnUIRender()               {}
