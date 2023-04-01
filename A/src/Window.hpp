@@ -36,13 +36,25 @@ namespace ProjectA
         unsigned int Height() const { return m_WindowInfo.Height; }
         bool IsOpen() const { return m_IsOpen; }
         bool ShouldClose() const { return !m_IsOpen; }
+        void Resize(unsigned int width, unsigned int height);
+        void Close();
+        
         LayerStack& GetLayerStack() { return m_Layers; };
         SDL_Window* GetSDLWindow() const { return m_SDLWindow; }
-        void Close();   
-        
-        static Window* Create(const WindowInfo& info);
-        static void AddLayer(Window* window, Layer* layer);
-        void Resize(unsigned int width, unsigned int height);
+
+        template<typename... T>
+        static void AddLayer(Window* anyWindow)
+        {
+            auto& layers = anyWindow->GetLayerStack();
+            Layer* layer = nullptr;
+            ((layer = new T, layers.Push(layer), layer->OnAttach()), ...);
+        }
+
+        // template<typename... S>
+        // void AddLayer()
+        // {
+        //     (m_Layers.Push(new S), ...);
+        // }
 
         void HandleEvent(const SDL_Event& event);
         void UpdateLayers();

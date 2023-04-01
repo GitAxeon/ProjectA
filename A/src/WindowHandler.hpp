@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Window.hpp"
 
 #include <map>
@@ -17,10 +18,7 @@ namespace ProjectA
                 : RenderingAPI(Render::API::SDL), EnableMultiThreading(false) { }
         };
 
-        static WindowHandler* GetInstance();
-
-        WindowHandler(WindowHandler&) = delete;
-        void operator=(const WindowHandler&) = delete;
+        static WindowHandler& Instance();
 
         void Configure(const Configuration& configuration);
         Window* CreateWindow(const WindowInfo& info);
@@ -31,17 +29,19 @@ namespace ProjectA
         WindowHandler() = default;
         ~WindowHandler() = default;
 
+        WindowHandler(const WindowHandler&) = delete;
+        WindowHandler& operator=(const WindowHandler&) = delete;
+
         void DispatchEvents();
         void DispatchEvent(const SDL_Event& event);
 
         void ReleaseClosedWindows();
 
     private:
-        static WindowHandler* m_Instance;
-
-        Configuration m_Configuration;
-        std::map<SDL_WindowID, Window*> m_Windows;
-
-        bool m_WindowCloseRequested = false;
+        inline static Configuration m_Configuration;
+        inline static std::map<SDL_WindowID, Window*> m_Windows;
+        inline static bool m_WindowCloseRequested = false;
     };
+
+    inline WindowHandler& Puebes = WindowHandler::Instance();
 }

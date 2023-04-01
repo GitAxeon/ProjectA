@@ -13,7 +13,7 @@ namespace ProjectA
         
         void Clear();
 
-        void Push(Layer* layer);
+        Layer* Push(Layer* layer);
         void Pop();
         
         size_t size() { return m_Layers.size(); }

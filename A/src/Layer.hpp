@@ -6,6 +6,9 @@ namespace ProjectA
     class Layer
     {
     public:
+        Layer() { }
+        virtual ~Layer() { }
+        
         virtual void OnDetach()                 {}
         virtual void OnAttach()                 {}
 

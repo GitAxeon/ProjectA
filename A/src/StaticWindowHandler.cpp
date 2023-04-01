@@ -1,22 +1,16 @@
-#include "WindowHandler.hpp"
+#include "StaticWindowHandler.hpp"
 #include "Event.hpp"
 
 #include <SDL3/SDL_events.h>
 
 namespace ProjectA
 {
-    WindowHandler& WindowHandler::Instance()
-    {
-        static WindowHandler instance;
-        return instance;
-    }
-
-    void WindowHandler::Configure(const Configuration& configuration)
+    void StaticWindowHandler::Configure(const Configuration& configuration)
     {
         m_Configuration = configuration;
     }
 
-    Window* WindowHandler::CreateWindow(const WindowInfo& info)
+    Window* StaticWindowHandler::CreateWindow(const WindowInfo& info)
     {
         Window* window = new Window(info);
         SDL_WindowID id = SDL_GetWindowID(window->GetSDLWindow());
@@ -26,7 +20,7 @@ namespace ProjectA
         return window;
     }
 
-    void WindowHandler::DispatchEvents()
+    void StaticWindowHandler::DispatchEvents()
     {
         SDL_Event e;
         while(SDL_PollEvent(&e))
@@ -35,7 +29,7 @@ namespace ProjectA
         }
     }
 
-    void WindowHandler::DispatchEvent(const SDL_Event& event)
+    void StaticWindowHandler::DispatchEvent(const SDL_Event& event)
     {
         SDL_WindowID id = GetEventTargetWindowID(event);
 
@@ -57,7 +51,7 @@ namespace ProjectA
         }
     }
 
-    void WindowHandler::Run()
+    void StaticWindowHandler::Run()
     {
         while(m_Windows.size() > 0)
         {
@@ -80,7 +74,7 @@ namespace ProjectA
         }
     }
 
-    void WindowHandler::ReleaseClosedWindows()
+    void StaticWindowHandler::ReleaseClosedWindows()
     {
         for(auto it = m_Windows.begin(); it != m_Windows.end(); )
         {

@@ -1,5 +1,4 @@
-#include "A.hpp"
-
+#include "Window.hpp"
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_hints.h>
 #include <imgui.h>
@@ -31,20 +30,6 @@ namespace ProjectA
         m_IsOpen = false;
     }
 
-    Window* Window::Create(const WindowInfo& info)
-    {
-        Window* window = new Window(info);
-        g_Windows.emplace_front(window);
-        g_WindowCount++;
-
-        return window;
-    }
-    
-    void Window::AddLayer(Window* anyWindow, Layer* layer)
-    {
-        anyWindow->GetLayerStack().Push(layer);
-    }
-
     void Window::Resize(unsigned int width, unsigned int height)
     {
         assert(width != 0 && height != 0);
@@ -67,7 +52,6 @@ namespace ProjectA
             if(event.key.keysym.sym == SDLK_ESCAPE)
             {
                 m_IsOpen = false;
-                g_KeepOpen = false;
             }
         }
 

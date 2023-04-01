@@ -6,19 +6,19 @@ namespace ProjectA
 {
     void LayerStack::Clear()
     {
-        std::cout << "Clearing layerstack\n";
-
         for(Layer* layer : m_Layers)
         {
             layer->OnDetach();
             delete layer;
         }
+
+        m_Layers.clear();
     }
 
-    void LayerStack::Push(Layer* layer)
+    Layer* LayerStack::Push(Layer* layer)
     {
         m_Layers.push_back(layer);
-        layer->OnAttach();
+        return layer;
     }
 
     void LayerStack::Pop()
@@ -29,6 +29,4 @@ namespace ProjectA
         m_Layers[m_Layers.size() - 1]->OnDetach();
         m_Layers.pop_back();
     }
-
-    
 }

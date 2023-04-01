@@ -6,10 +6,10 @@
 int main(int argc, char** argv)
 {
     class DemoLayer : public ProjectA::Layer
-    {    
+    {
         void OnAttach() override
         {
-            std::cout << "Attached\n";
+            std::cout << "Demolayer attached\n";
         }
 
         void OnUpdate(float deltaTime) override
@@ -26,10 +26,22 @@ int main(int argc, char** argv)
         {
             if(e.type == SDL_EVENT_KEY_DOWN && e.key.keysym.sym == SDLK_p)
             {
-                // ProjectA::Window* wnd = ProjectA::Window::Create({ "Test window", 700, 320 });
-                ProjectA::Window* wnd = ProjectA::WindowHandler::GetInstance()->CreateWindow({ "Test window", 700, 320 }); 
-                ProjectA::Window::AddLayer(wnd, new DemoLayer);
+                ProjectA::Window* wnd = ProjectA::StaticWindowHandler::CreateWindow({ "Test window", 700, 320 });
+                ProjectA::Window::AddLayer<DemoLayer>(wnd);
             }
+        }
+    };
+
+    class EbolaLayer : public ProjectA::Layer
+    {
+        void OnAttach() override
+        {
+            std::cout << ">> EBOLALAYER ATTACHED\n";
+        }
+
+        void OnUpdate(float dt) override
+        {
+            std::cout << "AAAAAAAAAAAAAAAA\n";
         }
     };
 
@@ -50,22 +62,40 @@ int main(int argc, char** argv)
     
     // ProjectA::Deinit();
 
+    // ProjectA::Init();
+
+    // ProjectA::WindowHandler::Configuration config;
+    // config.EnableMultiThreading = false;
+    // config.RenderingAPI = ProjectA::Render::API::SDL;
+
+    // ProjectA::WindowHandler& windowHandler = ProjectA::WindowHandler::Instance();
+    // windowHandler.Configure(config);
+
+    // ProjectA::Window* MainWindow = windowHandler.CreateWindow({ "Main window", 700, 320 });
+    // MainWindow->AddLayer<DemoLayer, EbolaLayer>();
+
+    // // ProjectA::Window::AddLayer<DemoLayer>(MainWindow);
+
+    // // ProjectA::Window* EditorWindow = windowHandler.CreateWindow({ "Editor window", 700, 320 });
+    // // ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
+
+    // windowHandler.Run();
+
+    // ProjectA::Deinit();
+
+
     ProjectA::Init();
 
-    ProjectA::WindowHandler::Configuration config;
+    ProjectA::StaticWindowHandler::Configuration config;
     config.EnableMultiThreading = false;
     config.RenderingAPI = ProjectA::Render::API::SDL;
+    ProjectA::StaticWindowHandler::Configure(config);
 
-    ProjectA::WindowHandler* windowHandler = ProjectA::WindowHandler::GetInstance();
-    windowHandler->Configure(config);
+    ProjectA::Window* MainWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Main Window", 700, 320 });
+    ProjectA::Window::AddLayer<EbolaLayer, DemoLayer>(MainWindow);
 
-    ProjectA::Window* MainWindow = windowHandler->CreateWindow({ "Main window", 700, 320 });
-    ProjectA::Window::AddLayer(MainWindow, new DemoLayer);
-
-    ProjectA::Window* EditorWindow = windowHandler->CreateWindow({ "Editor window", 700, 320 });
-    ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
-
-    windowHandler->Run();
+    ProjectA::StaticWindowHandler::Run();
+    
 
     ProjectA::Deinit();
 }
