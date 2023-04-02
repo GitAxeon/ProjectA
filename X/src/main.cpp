@@ -30,6 +30,14 @@ int main(int argc, char** argv)
                 ProjectA::Window::AddLayer<DemoLayer>(wnd);
             }
         }
+
+        void OnEvent(const ProjectA::Event& event)
+        {
+            if(ProjectA::Event::Match<ProjectA::KeyDown>(event))
+            {
+
+            }
+        }
     };
 
     class EbolaLayer : public ProjectA::Layer
