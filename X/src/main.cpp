@@ -94,8 +94,10 @@ int main(int argc, char** argv)
     ProjectA::Window* MainWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Main Window", 700, 320 });
     ProjectA::Window::AddLayer<EbolaLayer, DemoLayer>(MainWindow);
 
+    ProjectA::Window* EditorWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Test Window", 1920, 720 });
+    ProjectA::Window::AddLayer<DemoLayer>(EditorWindow);
+
     ProjectA::StaticWindowHandler::Run();
     
-
     ProjectA::Deinit();
 }
