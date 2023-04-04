@@ -27,7 +27,7 @@ namespace ProjectA
         ~StaticWindowHandler() = default;
 
         static void DispatchEvents();
-        static void DispatchEvent(const SDL_Event& event);
+        static void DispatchEvent(const SDL_Event& event, Event* test);
         static void ReleaseClosedWindows();
 
     private:

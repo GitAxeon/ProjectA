@@ -3,7 +3,6 @@
 #include "Init.hpp"
 #include "Layer.hpp"
 #include "LayerStack.hpp"
-#include "WindowHandler.hpp"
 #include "Window.hpp"
 #include "Rendering.hpp"
 #include "Color.hpp"

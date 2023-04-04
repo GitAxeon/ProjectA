@@ -8,30 +8,45 @@
 
 namespace ProjectA
 {
+    class Event;
+    SDL_WindowID GetEventTargetWindowID(const SDL_Event& event);
+    Event* TranslateEvent(const SDL_Event& e);
+    Keycode SDLKeycodeToKeycode(const SDL_Keycode k);
+
     enum class EventType 
-    { 
-        
+    {
+        None,
         WindowClose, WindowResize,
         KeyBoardMove /*:^)*/, KeyDown, KeyUp,
         MouseMove, MouseButtonDown, MouseButtonUp
     };
 
-    #define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return EventType::type; }\
-                                    virtual EventType GetEventType() const override { return GetStaticType(); }\
-                                    virtual const char* GetName() const override { return #type; }
-    struct Event
+    enum class MouseButton
     {
-        bool Handled = false;
+        Uknown,
+        Left,
+        Middle,
+        Right
+    };
 
-        virtual EventType GetEventType() const = 0;
-        virtual const char* GetName() const = 0;
-        virtual std::string ToString() const { return GetName(); }
+    #define CreateClassType(typename) static EventType GetStaticType() { return EventType::typename; }\
+                                            EventType GetType() const { return GetStaticType(); }\
+                                            const char* GetName() const { return #typename; }\
+                                            virtual std::string ToString() const { return GetName(); }
+    class Event
+    {
+    public:        
+        virtual EventType GetType() const = 0;
+        virtual std::string ToString() const = 0;
 
         template<typename T>
-        static bool Match(const Event& e)
+        bool MatchesType() const
         {
-            return e.GetEventType() == T::GetStaticType();
+            return GetType() == T::GetStaticType();
         }
+        
+    public: 
+        bool Handled = false;
     };
 
     inline std::ostream& operator<<(std::ostream& os, const Event& e)
@@ -39,17 +54,85 @@ namespace ProjectA
         return os << e.ToString();
     }
 
-    SDL_WindowID GetEventTargetWindowID(const SDL_Event& event);
-
-    class KeyDown : public Event
+    class WindowEvent : public Event
     {
     public:
-        KeyDown(Keycode key, bool repeat) 
-            : Code(key), Repeat(repeat) { }
-         
-        Keycode Code;
-        bool Repeat = false;
+        SDL_WindowID WindowID() const { return m_WindowID; }
 
-        EVENT_CLASS_TYPE(KeyDown);
+    protected:
+        WindowEvent(SDL_WindowID windowID) : m_WindowID(windowID) { }
+
+        SDL_WindowID m_WindowID;
+    };
+
+    class EventWindowClose : public WindowEvent
+    {
+    public:
+        EventWindowClose(SDL_WindowID windowID) : WindowEvent(windowID) { }
+
+        CreateClassType(WindowClose);
+    };
+
+    class EventWindowResize : public WindowEvent
+    {
+        EventWindowResize(SDL_WindowID windowID, unsigned int width, unsigned int height)
+            : WindowEvent(windowID), m_Width(width), m_Height(height) { }
+
+        CreateClassType(WindowResize)
+
+        unsigned int Width() const { return m_Width; }
+        unsigned int Height() const { return m_Height; }
+
+    private:
+        unsigned int m_Width;
+        unsigned int m_Height;
+    };
+
+    class EventKeyDown : public Event
+    {
+    public:
+        EventKeyDown(Keycode key, bool repeating) : m_Code(key), m_Repeating(repeating) { }
+        
+        CreateClassType(KeyDown)
+    
+    private:
+        Keycode m_Code;
+        bool m_Repeating = false;
+    };
+
+    class EventKeyUp : public Event
+    {
+    public:
+        EventKeyUp(Keycode key) : Code(key) { }
+
+        CreateClassType(KeyUp)
+    
+    private:
+        Keycode Code;
+    };
+
+    class EventMouseButtonDown : public Event
+    {
+    public: 
+        EventMouseButtonDown(MouseButton button, bool repeating)
+            : m_Button(button), m_Repeating(repeating) { }
+
+        CreateClassType(MouseButtonDown);
+
+    private:
+        MouseButton m_Button;
+        bool m_Repeating;
+    };
+
+    class EventMouseButtonUp : public Event
+    {
+    public:
+        EventMouseButtonUp(MouseButton button)
+            : m_Button(button) { }
+        
+        CreateClassType(MouseButtonUp)
+
+    private:
+        MouseButton m_Button;
     };
 }

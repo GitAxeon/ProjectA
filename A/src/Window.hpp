@@ -50,13 +50,7 @@ namespace ProjectA
             ((layer = new T, layers.Push(layer), layer->OnAttach()), ...);
         }
 
-        // template<typename... S>
-        // void AddLayer()
-        // {
-        //     (m_Layers.Push(new S), ...);
-        // }
-
-        void HandleEvent(const SDL_Event& event);
+        void HandleEvent(const SDL_Event& event, Event* test);
         void UpdateLayers();
 
     private:

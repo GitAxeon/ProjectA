@@ -1,5 +1,4 @@
 #include "A.hpp"
-#include "WindowHandler.hpp"
 
 #include <iostream>
 
@@ -31,12 +30,24 @@ int main(int argc, char** argv)
             }
         }
 
-        void OnEvent(const ProjectA::Event& event)
+        void OnEvent(ProjectA::Event* event)
         {
-            if(ProjectA::Event::Match<ProjectA::KeyDown>(event))
+            if(event->GetType() == ProjectA::EventType::KeyDown)
             {
 
             }
+
+            if(event->MatchesType<ProjectA::EventKeyDown>())
+            {
+                std::cout << "Hey the new events kinda working yes?\n" << std::endl;
+            }
+
+            std::cout << *event << std::endl;
+
+            // if(ProjectA::EventTypeMatch<ProjectA::EventKeyDown>(event))
+            // {
+
+            // }
         }
     };
 
@@ -49,48 +60,9 @@ int main(int argc, char** argv)
 
         void OnUpdate(float dt) override
         {
-            std::cout << "AAAAAAAAAAAAAAAA\n";
+            //std::cout << "AAAAAAAAAAAAAAAA\n";
         }
     };
-
-    // ProjectA::Configuration config;
-    // config.RenderingAPI = ProjectA::Render::API::SDL;
-    // config.EnableMultiThreading = false;
-
-    // ProjectA::Configure(config);
-    // ProjectA::Init();
-
-    // ProjectA::Window* MainWindow = ProjectA::Window::Create({"Main window", 700, 320});
-    // ProjectA::Window::AddLayer(MainWindow, new DemoLayer);
-
-    // ProjectA::Window* EditorWindow = ProjectA::Window::Create({"Editor window", 700, 320});
-    // ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
-
-    // ProjectA::Run();
-    
-    // ProjectA::Deinit();
-
-    // ProjectA::Init();
-
-    // ProjectA::WindowHandler::Configuration config;
-    // config.EnableMultiThreading = false;
-    // config.RenderingAPI = ProjectA::Render::API::SDL;
-
-    // ProjectA::WindowHandler& windowHandler = ProjectA::WindowHandler::Instance();
-    // windowHandler.Configure(config);
-
-    // ProjectA::Window* MainWindow = windowHandler.CreateWindow({ "Main window", 700, 320 });
-    // MainWindow->AddLayer<DemoLayer, EbolaLayer>();
-
-    // // ProjectA::Window::AddLayer<DemoLayer>(MainWindow);
-
-    // // ProjectA::Window* EditorWindow = windowHandler.CreateWindow({ "Editor window", 700, 320 });
-    // // ProjectA::Window::AddLayer(EditorWindow, new DemoLayer);
-
-    // windowHandler.Run();
-
-    // ProjectA::Deinit();
-
 
     ProjectA::Init();
 

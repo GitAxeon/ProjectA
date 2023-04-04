@@ -2,6 +2,17 @@
 
 namespace ProjectA
 {
+    MouseButton SDLButtonToMouseButton(uint8_t SDLButton)
+    {
+        switch(SDLButton)
+        {
+            case SDL_BUTTON_LEFT: return MouseButton::Left;
+            case SDL_BUTTON_RIGHT: return MouseButton::Right;
+            case SDL_BUTTON_MIDDLE: return MouseButton::Middle;
+            default: return MouseButton::Uknown;
+        }
+    }
+
     SDL_WindowID GetEventTargetWindowID(const SDL_Event& event)
     {
         switch(event.type)
@@ -37,5 +48,41 @@ namespace ProjectA
             default:
                 return 0;
         };
+    }
+
+    Event* TranslateEvent(const SDL_Event& e)
+    {
+        switch(e.type)
+        {
+            case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+                return new EventWindowClose(e.window.windowID);
+
+            case SDL_EVENT_MOUSE_BUTTON_DOWN:
+                return new EventMouseButtonDown(SDLButtonToMouseButton(e.button.button), false);
+            
+            case SDL_EVENT_MOUSE_BUTTON_UP:
+                return new EventMouseButtonUp(SDLButtonToMouseButton(e.button.button));
+            
+            case SDL_EVENT_KEY_DOWN:
+                return new EventKeyDown(SDLKeycodeToKeycode(e.key.keysym.sym), e.key.repeat);
+            
+            case SDL_EVENT_KEY_UP:
+                return new EventKeyUp(SDLKeycodeToKeycode(e.key.keysym.sym));
+            
+            default:
+                return nullptr;
+        }
+    }
+
+    Keycode SDLKeycodeToKeycode(const SDL_Keycode k)
+    {
+        auto it = KeyMapping.find(k);
+
+        if(it != KeyMapping.end())
+        {
+            return it->second;
+        }
+
+        return Keycode::Unknown;
     }
 }

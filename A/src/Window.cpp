@@ -40,7 +40,7 @@ namespace ProjectA
         m_WindowInfo.Height = height;
     }
 
-    void Window::HandleEvent(const SDL_Event& event)
+    void Window::HandleEvent(const SDL_Event& event, Event* test)
     {
         switch(event.type)
         {
@@ -58,6 +58,7 @@ namespace ProjectA
         for(auto layer : m_Layers)
         {
             layer->OnEvent(event);
+            layer->OnEvent(test);
         }
     }
 
