@@ -39,8 +39,13 @@ int main(int argc, char** argv)
 
             if(event->MatchesType<ProjectA::EventKeyDown>())
             {
-                std::cout << "Hey the new events kinda working yes?\n" << std::endl;
+                event = static_cast<ProjectA::EventKeyDown*>(event);
+                event->Key();
+                
+                std::cout << "Hey the new events kinda working yes?\n";
             }
+
+            if()
 
             std::cout << *event << std::endl;
 

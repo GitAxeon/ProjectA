@@ -78,10 +78,10 @@ namespace ProjectA
         EventWindowResize(SDL_WindowID windowID, unsigned int width, unsigned int height)
             : WindowEvent(windowID), m_Width(width), m_Height(height) { }
 
-        CreateClassType(WindowResize)
-
         unsigned int Width() const { return m_Width; }
         unsigned int Height() const { return m_Height; }
+        
+        CreateClassType(WindowResize)
 
     private:
         unsigned int m_Width;
@@ -92,6 +92,9 @@ namespace ProjectA
     {
     public:
         EventKeyDown(Keycode key, bool repeating) : m_Code(key), m_Repeating(repeating) { }
+
+        Keycode Key() const { return m_Code; }
+        bool Repeating() const { m_Repeating; }
         
         CreateClassType(KeyDown)
     
@@ -103,12 +106,14 @@ namespace ProjectA
     class EventKeyUp : public Event
     {
     public:
-        EventKeyUp(Keycode key) : Code(key) { }
+        EventKeyUp(Keycode key) : m_Code(key) { }
+
+        Keycode Key() const { return m_Code; }
 
         CreateClassType(KeyUp)
     
     private:
-        Keycode Code;
+        Keycode m_Code;
     };
 
     class EventMouseButtonDown : public Event
@@ -116,6 +121,9 @@ namespace ProjectA
     public: 
         EventMouseButtonDown(MouseButton button, bool repeating)
             : m_Button(button), m_Repeating(repeating) { }
+
+        MouseButton Button() const { return m_Button; }
+        bool Repeating() const { return m_Repeating; }
 
         CreateClassType(MouseButtonDown);
 
@@ -129,6 +137,8 @@ namespace ProjectA
     public:
         EventMouseButtonUp(MouseButton button)
             : m_Button(button) { }
+
+        MouseButton Button() const { return m_Button; }
         
         CreateClassType(MouseButtonUp)
 
