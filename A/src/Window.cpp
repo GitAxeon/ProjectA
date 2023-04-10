@@ -1,4 +1,6 @@
 #include "Window.hpp"
+#include "StaticWindowHandler.hpp"
+
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_hints.h>
 #include <imgui.h>
@@ -21,6 +23,11 @@ namespace ProjectA
 
     Window::~Window()
     {
+        for(auto layer : m_Layers)
+        {
+            layer->OnDetach();
+        }
+
         m_Layers.Clear();
         SDL_DestroyWindow(m_SDLWindow);
     }
@@ -30,7 +37,7 @@ namespace ProjectA
         m_IsOpen = false;
     }
 
-    void Window::Resize(unsigned int width, unsigned int height)
+    void Window::Resize(uint32_t width, uint32_t height)
     {
         assert(width != 0 && height != 0);
         
@@ -40,25 +47,26 @@ namespace ProjectA
         m_WindowInfo.Height = height;
     }
 
-    void Window::HandleEvent(const SDL_Event& event, Event* test)
+    void Window::HandleEvent(Event* event)
     {
-        switch(event.type)
+        switch(event->GetType())
         {
-        case SDL_EVENT_QUIT:
-        case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+        case ProjectA::EventType::WindowClose:
             m_IsOpen = false;
         break;
-        case SDL_EVENT_KEY_DOWN:
-            if(event.key.keysym.sym == SDLK_ESCAPE)
+        case ProjectA::EventType::KeyDown:
+            auto keydown = ProjectA::Event::Cast<ProjectA::EventKeyDown>(event);
+            
+            if(keydown->Key() == ProjectA::Keycode::Escape)
             {
-                m_IsOpen = false;
+                StaticWindowHandler::CloseAllWindows();
             }
+        break;
         }
 
         for(auto layer : m_Layers)
         {
             layer->OnEvent(event);
-            layer->OnEvent(test);
         }
     }
 

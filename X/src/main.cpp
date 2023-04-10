@@ -6,80 +6,73 @@ int main(int argc, char** argv)
 {
     class DemoLayer : public ProjectA::Layer
     {
+    public:
         void OnAttach() override
         {
             std::cout << "Demolayer attached\n";
         }
 
+        void OnDetach() override 
+        {
+            std::cout << "Demolayer detached\n";
+        }
+
         void OnUpdate(float deltaTime) override
         {
-            // std::cout << "I am gamelayer wooo\n";
-        }
-
-        void OnRender() override
-        {
-            // std::cout << "#HELP I TRYING RENDER\n";
-        }
-
-        void OnEvent(const SDL_Event& e)
-        {
-            if(e.type == SDL_EVENT_KEY_DOWN && e.key.keysym.sym == SDLK_p)
-            {
-                ProjectA::Window* wnd = ProjectA::StaticWindowHandler::CreateWindow({ "Test window", 700, 320 });
-                ProjectA::Window::AddLayer<DemoLayer>(wnd);
-            }
+            // std::cout << "OnUpdate(" << deltaTime << ")\n";
         }
 
         void OnEvent(ProjectA::Event* event)
         {
-            if(event->GetType() == ProjectA::EventType::KeyDown)
-            {
-
-            }
+            if(event->GetType() == ProjectA::EventType::KeyDown) { }
 
             if(event->MatchesType<ProjectA::EventKeyDown>())
             {
-                event = static_cast<ProjectA::EventKeyDown*>(event);
-                event->Key();
-                
-                std::cout << "Hey the new events kinda working yes?\n";
+                auto ptr = ProjectA::Event::Cast<ProjectA::EventKeyDown>(event);
+
+                if(ptr->Key() == ProjectA::Keycode::P)
+                {
+                    ProjectA::Window* wnd = ProjectA::StaticWindowHandler::CreateWindow({ "Test", 700, 320 });
+                    ProjectA::Window::AddLayer<DemoLayer>(wnd);
+                }
             }
 
-            if()
-
-            std::cout << *event << std::endl;
-
-            // if(ProjectA::EventTypeMatch<ProjectA::EventKeyDown>(event))
-            // {
-
-            // }
+            std::cout << *event << "\n";
         }
+
+        void OnRender()
+        {
+            // ProjectA::Render(m_Image);
+        }
+
+    private:
+        Image m_Image;
     };
 
-    class EbolaLayer : public ProjectA::Layer
+    class TestLayer : public ProjectA::Layer
     {
         void OnAttach() override
         {
-            std::cout << ">> EBOLALAYER ATTACHED\n";
+            std::cout << ">> Test\n";
         }
 
-        void OnUpdate(float dt) override
+        void OnDetach() override
         {
-            //std::cout << "AAAAAAAAAAAAAAAA\n";
+            std::cout << ">> Testn't\n";
         }
     };
 
     ProjectA::Init();
 
     ProjectA::StaticWindowHandler::Configuration config;
-    config.EnableMultiThreading = false;
     config.RenderingAPI = ProjectA::Render::API::SDL;
+    
     ProjectA::StaticWindowHandler::Configure(config);
 
     ProjectA::Window* MainWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Main Window", 700, 320 });
-    ProjectA::Window::AddLayer<EbolaLayer, DemoLayer>(MainWindow);
+    ProjectA::Window::AddLayer<TestLayer, DemoLayer>(MainWindow);
 
-    ProjectA::Window* EditorWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Test Window", 1920, 720 });
+    ProjectA::Window* EditorWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Test Window", 700, 320 });
     ProjectA::Window::AddLayer<DemoLayer>(EditorWindow);
 
     ProjectA::StaticWindowHandler::Run();

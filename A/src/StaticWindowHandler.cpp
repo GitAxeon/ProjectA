@@ -22,29 +22,35 @@ namespace ProjectA
 
     void StaticWindowHandler::DispatchEvents()
     {
-        SDL_Event e;
-        while(SDL_PollEvent(&e))
+        SDL_Event sdlEvent;
+        while(SDL_PollEvent(&sdlEvent))
         {
-            Event* evnt = TranslateEvent(e);
+            Event* evnt = TranslateEvent(sdlEvent);
+
             if(evnt != nullptr)
             {
-                DispatchEvent(e, evnt);
+                DispatchEvent(evnt);
             }
 
             delete evnt;
         }
     }
 
-    void StaticWindowHandler::DispatchEvent(const SDL_Event& event, Event* test)
+    void StaticWindowHandler::DispatchEvent(Event* event)
     {
-        SDL_WindowID id = GetEventTargetWindowID(event);
+        SDL_WindowID id = event->WindowID();
 
         if(id != 0)
         {
-            Window* window = m_Windows.at(id);
+            auto it = m_Windows.find(id);
 
-            window->HandleEvent(event, test);
+            if(it == m_Windows.end())
+                return;
 
+            Window* window = it->second;
+            
+            window->HandleEvent(event);
+            
             if(window->ShouldClose())
                 m_WindowCloseRequested = true;
         }
@@ -52,7 +58,7 @@ namespace ProjectA
         {
             for(auto& [id, window] : m_Windows)
             {
-                window->HandleEvent(event, test);
+                window->HandleEvent(event);
             }
         }
     }
@@ -95,5 +101,13 @@ namespace ProjectA
         }
 
         m_WindowCloseRequested = false;
+    }
+
+    void StaticWindowHandler::CloseAllWindows()
+    {
+        m_WindowCloseRequested = true;
+
+        for(auto& [id, window] : m_Windows)
+            window->Close();
     }
 }

@@ -7,6 +7,7 @@
 #include <SDL3/SDL_events.h>
 
 #include <string>
+#include <cstdint>
 
 namespace ProjectA
 {
@@ -14,14 +15,14 @@ namespace ProjectA
     {
         WindowInfo(
             std::string name = "default", 
-            unsigned int width = 700,
-            unsigned int height = 320,
+            uint32_t width = 700,
+            uint32_t height = 320,
             Render::API renderingAPI = Render::API::SDL
         ) : Name(name), Width(width), Height(height), RenderingAPI(renderingAPI) { }
         
         std::string Name;
-        unsigned int Width;
-        unsigned int Height;
+        uint32_t Width;
+        uint32_t Height;
         Render::API RenderingAPI;
     };
 
@@ -32,15 +33,15 @@ namespace ProjectA
         ~Window();
 
         std::string Title() const { return m_WindowInfo.Name; }
-        unsigned int Width() const { return m_WindowInfo.Width; }
-        unsigned int Height() const { return m_WindowInfo.Height; }
+        uint32_t Width() const { return m_WindowInfo.Width; }
+        uint32_t Height() const { return m_WindowInfo.Height; }
         bool IsOpen() const { return m_IsOpen; }
         bool ShouldClose() const { return !m_IsOpen; }
-        void Resize(unsigned int width, unsigned int height);
+        void Resize(uint32_t width, uint32_t height);
         void Close();
         
-        LayerStack& GetLayerStack() { return m_Layers; };
         SDL_Window* GetSDLWindow() const { return m_SDLWindow; }
+        LayerStack& GetLayerStack() { return m_Layers; };
 
         template<typename... T>
         static void AddLayer(Window* anyWindow)
@@ -50,7 +51,7 @@ namespace ProjectA
             ((layer = new T, layers.Push(layer), layer->OnAttach()), ...);
         }
 
-        void HandleEvent(const SDL_Event& event, Event* test);
+        void HandleEvent(Event* event);
         void UpdateLayers();
 
     private:
@@ -60,5 +61,6 @@ namespace ProjectA
         bool m_IsOpen = true;
         
         LayerStack m_Layers;
+        // RenderingContext m_Context;
     }; 
 }

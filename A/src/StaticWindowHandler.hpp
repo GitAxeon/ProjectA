@@ -20,6 +20,7 @@ namespace ProjectA
 
         static void Configure(const Configuration& configuration);
         static Window* CreateWindow(const WindowInfo& info);
+        static void CloseAllWindows();
         static void Run();
 
     private:
@@ -27,7 +28,7 @@ namespace ProjectA
         ~StaticWindowHandler() = default;
 
         static void DispatchEvents();
-        static void DispatchEvent(const SDL_Event& event, Event* test);
+        static void DispatchEvent(Event* test);
         static void ReleaseClosedWindows();
 
     private:

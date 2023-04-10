@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <algorithm>
+#include <string>
 
 namespace ProjectA
 {
@@ -75,4 +76,103 @@ namespace ProjectA
         {SDLK_8, Keycode::D8},
         {SDLK_9, Keycode::D9}
     };
+
+    constexpr const char* KeycodeToString(Keycode keycode)
+    {
+        switch(keycode)
+        {
+        case Keycode::Unknown:
+            return "Unknown";
+        case Keycode::Enter:
+            return "Enter";
+        case Keycode::Escape:
+            return "Escape";
+        case Keycode::Space:
+            return "Space";
+        case Keycode::Up:
+            return "Up";
+        case Keycode::Down:
+            return "Down";
+        case Keycode::Left:
+            return "Left";
+        case Keycode::Right:
+            return "Right";
+
+        case Keycode::A:
+            return "A"; 
+        case Keycode::B:
+            return "B"; 
+        case Keycode::C:
+            return "C";
+        case Keycode::D:
+            return "D"; 
+        case Keycode::E:
+            return "E"; 
+        case Keycode::F:
+            return "F"; 
+        case Keycode::G:
+            return "G"; 
+        case Keycode::H:
+            return "H"; 
+        case Keycode::I:
+            return "I";
+        case Keycode::J:
+            return "J"; 
+        case Keycode::K:
+            return "K"; 
+        case Keycode::L:
+            return "L"; 
+        case Keycode::M:
+            return "M"; 
+        case Keycode::N:
+            return "N"; 
+        case Keycode::O:
+            return "O"; 
+        case Keycode::P:
+            return "P"; 
+        case Keycode::Q:
+            return "Q"; 
+        case Keycode::R:
+            return "R";
+        case Keycode::S:
+            return "S";
+        case Keycode::T:
+            return "T";
+        case Keycode::U:
+            return "U"; 
+        case Keycode::V:
+            return "V"; 
+        case Keycode::W:
+            return "W"; 
+        case Keycode::X:
+            return "X"; 
+        case Keycode::Y:
+            return "Y";
+        case Keycode::Z:
+            return "Z";
+
+        case Keycode::D0:
+            return "0"; 
+        case Keycode::D1:
+            return "1"; 
+        case Keycode::D2:
+            return "2"; 
+        case Keycode::D3:
+            return "3"; 
+        case Keycode::D4:
+            return "4"; 
+        case Keycode::D5:
+            return "5"; 
+        case Keycode::D6:
+            return "6"; 
+        case Keycode::D7:
+            return "7";
+        case Keycode::D8:
+            return "8"; 
+        case Keycode::D9:
+            return "9";
+        default:
+            return "Unknown";
+        }
+    }
 }

@@ -6,5 +6,6 @@
 #include "Window.hpp"
 #include "Rendering.hpp"
 #include "Color.hpp"
+#include "Image.hpp"
 #include "Event.hpp"
 #include "StaticWindowHandler.hpp"

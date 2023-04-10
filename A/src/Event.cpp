@@ -9,11 +9,23 @@ namespace ProjectA
             case SDL_BUTTON_LEFT: return MouseButton::Left;
             case SDL_BUTTON_RIGHT: return MouseButton::Right;
             case SDL_BUTTON_MIDDLE: return MouseButton::Middle;
-            default: return MouseButton::Uknown;
+            default: return MouseButton::Unknown;
         }
     }
 
-    SDL_WindowID GetEventTargetWindowID(const SDL_Event& event)
+    Keycode SDLKeycodeToKeycode(const SDL_Keycode k)
+    {
+        auto it = KeyMapping.find(k);
+
+        if(it != KeyMapping.end())
+        {
+            return it->second;
+        }
+
+        return Keycode::Unknown;
+    }
+
+    AWindowID GetEventTargetWindowID(const SDL_Event& event)
     {
         switch(event.type)
         {
@@ -52,37 +64,27 @@ namespace ProjectA
 
     Event* TranslateEvent(const SDL_Event& e)
     {
+        AWindowID id = GetEventTargetWindowID(e);
+
         switch(e.type)
         {
             case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
-                return new EventWindowClose(e.window.windowID);
+                return new EventWindowClose(id);
 
             case SDL_EVENT_MOUSE_BUTTON_DOWN:
-                return new EventMouseButtonDown(SDLButtonToMouseButton(e.button.button), false);
+                return new EventMouseButtonDown(id, SDLButtonToMouseButton(e.button.button), false);
             
             case SDL_EVENT_MOUSE_BUTTON_UP:
-                return new EventMouseButtonUp(SDLButtonToMouseButton(e.button.button));
+                return new EventMouseButtonUp(id, SDLButtonToMouseButton(e.button.button));
             
             case SDL_EVENT_KEY_DOWN:
-                return new EventKeyDown(SDLKeycodeToKeycode(e.key.keysym.sym), e.key.repeat);
+                return new EventKeyDown(id, SDLKeycodeToKeycode(e.key.keysym.sym), e.key.repeat);
             
             case SDL_EVENT_KEY_UP:
-                return new EventKeyUp(SDLKeycodeToKeycode(e.key.keysym.sym));
+                return new EventKeyUp(id, SDLKeycodeToKeycode(e.key.keysym.sym));
             
             default:
                 return nullptr;
         }
-    }
-
-    Keycode SDLKeycodeToKeycode(const SDL_Keycode k)
-    {
-        auto it = KeyMapping.find(k);
-
-        if(it != KeyMapping.end())
-        {
-            return it->second;
-        }
-
-        return Keycode::Unknown;
     }
 }
