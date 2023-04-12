@@ -77,7 +77,7 @@ namespace ProjectA
         {SDLK_9, Keycode::D9}
     };
 
-    constexpr const char* KeycodeToString(Keycode keycode)
+    inline const char* KeycodeToString(Keycode keycode)
     {
         switch(keycode)
         {

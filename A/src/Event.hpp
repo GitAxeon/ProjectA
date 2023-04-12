@@ -17,6 +17,8 @@ namespace ProjectA
     Event* TranslateEvent(const SDL_Event& e);
     Keycode SDLKeycodeToKeycode(const SDL_Keycode k);
 
+    std::tuple<float, float> MousePosition();
+
     enum class EventType 
     {
         None,
@@ -24,7 +26,6 @@ namespace ProjectA
         KeyBoardMove /*:^)*/, KeyDown, KeyUp,
         MouseMove, MouseButtonDown, MouseButtonUp
     };
-
 
     enum class MouseButton
     {

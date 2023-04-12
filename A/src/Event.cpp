@@ -2,6 +2,14 @@
 
 namespace ProjectA
 {
+    std::tuple<float, float> MousePosition()
+    {
+        float x, y;
+        SDL_GetMouseState(&x, &y);
+
+        return {x, y};
+    }
+
     MouseButton SDLButtonToMouseButton(uint8_t SDLButton)
     {
         switch(SDLButton)

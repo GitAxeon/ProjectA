@@ -1,5 +1,6 @@
 #pragma once
 
+#include "StaticWindowHandler.hpp"
 #include "LayerStack.hpp"
 #include "Rendering.hpp"
 

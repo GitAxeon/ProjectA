@@ -37,12 +37,17 @@ int main(int argc, char** argv)
                 }
             }
 
+            auto [mouseX, mouseY] = ProjectA::MousePosition();
+            std::cout << "Mouse position: " << mouseX << ", " << mouseY << "\n";
+
             std::cout << *event << "\n";
         }
 
         void OnRender()
         {
+            ProjectA::Renderer::Idk(m_Image);
             // ProjectA::Render(m_Image);
+            // ProjectA::Render2D(m_Image);
         }
 
     private:
@@ -72,8 +77,8 @@ int main(int argc, char** argv)
     ProjectA::Window* MainWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Main Window", 700, 320 });
     ProjectA::Window::AddLayer<TestLayer, DemoLayer>(MainWindow);
 
-    ProjectA::Window* EditorWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Test Window", 700, 320 });
-    ProjectA::Window::AddLayer<DemoLayer>(EditorWindow);
+    // ProjectA::Window* EditorWindow = ProjectA::StaticWindowHandler::CreateWindow({ "Test Window", 700, 320 });
+    // ProjectA::Window::AddLayer<DemoLayer>(EditorWindow);
 
     ProjectA::StaticWindowHandler::Run();
     

@@ -12,6 +12,7 @@ namespace ProjectA
 
     Window* StaticWindowHandler::CreateWindow(const WindowInfo& info)
     {
+        // Dno if one should check wether/ or not the sdl window is null or something 
         Window* window = new Window(info);
         SDL_WindowID id = SDL_GetWindowID(window->GetSDLWindow());
         
@@ -26,7 +27,7 @@ namespace ProjectA
         while(SDL_PollEvent(&sdlEvent))
         {
             Event* evnt = TranslateEvent(sdlEvent);
-
+            
             if(evnt != nullptr)
             {
                 DispatchEvent(evnt);

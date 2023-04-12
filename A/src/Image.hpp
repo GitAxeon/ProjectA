@@ -14,14 +14,16 @@ enum class PixelFormat
 class Image
 {
 public:
-    Image() : m_Width(0), m_Height(0), m_Channels(0), m_PixelFormat(PixelFormat::None), m_Pixels(nullptr) { }
+    Image() :
+        m_Width(0), m_Height(0), m_Channels(0), m_PixelFormat(PixelFormat::None), m_Pixels(nullptr)
+    {
+        
+    }
 
     Image(uint32_t width, uint32_t height, int channels, PixelFormat format, uint8_t* pixels)
+        : m_Width(width), m_Height(height), m_Channels(channels), m_PixelFormat(format), m_Pixels(pixels)
     {
-        m_Width = width;
-        m_Height = height;
-        m_Channels = channels;
-        m_Pixels = pixels;
+
     }
 
     ~Image()
