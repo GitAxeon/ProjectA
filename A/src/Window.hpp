@@ -1,6 +1,5 @@
 #pragma once
 
-#include "StaticWindowHandler.hpp"
 #include "LayerStack.hpp"
 #include "Rendering.hpp"
 
@@ -42,6 +41,7 @@ namespace ProjectA
         void Close();
         
         SDL_Window* GetSDLWindow() const { return m_SDLWindow; }
+        Layer* GetLayer() { return nullptr; }
         LayerStack& GetLayerStack() { return m_Layers; };
 
         template<typename... T>
@@ -49,7 +49,7 @@ namespace ProjectA
         {
             auto& layers = anyWindow->GetLayerStack();
             Layer* layer = nullptr;
-            ((layer = new T, layers.Push(layer), layer->OnAttach()), ...);
+            ((layer = new T(anyWindow), layers.Push(layer), layer->OnAttach()), ...);
         }
 
         void HandleEvent(Event* event);

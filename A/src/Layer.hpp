@@ -6,10 +6,14 @@
 
 namespace ProjectA
 {
+    class Window;
+
     class Layer
     {
     public:
-        Layer() { }
+        Layer() : m_Window(nullptr) { }
+        Layer(Window* window) : m_Window(window) { }
+
         virtual ~Layer() { }
         
         virtual void OnDetach()                 {}
@@ -20,5 +24,10 @@ namespace ProjectA
 
         virtual void OnRender()                 {}
         virtual void OnUIRender()               {}
+
+        Window* GetWindow() const { return m_Window; }
+        
+    private:
+        Window* m_Window;
     };
 }

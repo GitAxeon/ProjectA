@@ -1,5 +1,5 @@
 #include "Window.hpp"
-#include "StaticWindowHandler.hpp"
+#include "WindowHandler.hpp"
 
 #include <SDL3/SDL_events.h>
 #include <SDL3/SDL_hints.h>
@@ -51,15 +51,15 @@ namespace ProjectA
     {
         switch(event->GetType())
         {
-        case ProjectA::EventType::WindowClose:
+        case EventType::WindowClose:
             m_IsOpen = false;
         break;
-        case ProjectA::EventType::KeyDown:
-            auto keydown = ProjectA::Event::Cast<ProjectA::EventKeyDown>(event);
+        case EventType::KeyDown:
+            auto keydown = Event::Cast<EventKeyDown>(event);
             
-            if(keydown->Key() == ProjectA::Keycode::Escape)
+            if(keydown->Key() == Key::Key::Escape)
             {
-                StaticWindowHandler::CloseAllWindows();
+                WindowHandler::CloseAllWindows();
             }
         break;
         }

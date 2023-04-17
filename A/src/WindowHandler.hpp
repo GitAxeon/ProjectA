@@ -6,7 +6,7 @@
 
 namespace ProjectA
 {
-    class StaticWindowHandler
+    class WindowHandler
     {
     public:
         struct Configuration
@@ -24,8 +24,8 @@ namespace ProjectA
         static void Run();
 
     private:
-        StaticWindowHandler() = default;
-        ~StaticWindowHandler() = default;
+        WindowHandler() = default;
+        ~WindowHandler() = default;
 
         static void DispatchEvents();
         static void DispatchEvent(Event* test);

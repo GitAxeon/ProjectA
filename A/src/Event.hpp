@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Keycode.hpp"
+#include "Keycode_new.hpp"
 
 #include <SDL3/SDL_events.h>
 
@@ -15,7 +15,6 @@ namespace ProjectA
 
     AWindowID GetEventTargetWindowID(const SDL_Event& event);
     Event* TranslateEvent(const SDL_Event& e);
-    Keycode SDLKeycodeToKeycode(const SDL_Keycode k);
 
     std::tuple<float, float> MousePosition();
 
@@ -123,17 +122,17 @@ namespace ProjectA
     class EventKeyDown : public Event
     {
     public:
-        EventKeyDown(SDL_Keycode windowID, Keycode key, bool repeating) 
-            : Event(windowID), m_Code(key), m_Repeating(repeating) { }
+        EventKeyDown(SDL_Keycode windowID, Key::Key key, bool repeating) 
+            : Event(windowID), m_Key(key), m_Repeating(repeating) { }
 
-        Keycode Key() const { return m_Code; }
+        Key::Key Key() const { return m_Key; }
         bool Repeating() const { return m_Repeating; }
         
 
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << GetName() << " Key: " << KeycodeToString(m_Code);
+            ss << GetName() << " Key: " << Key::ToString(m_Key);
             ss << (m_Repeating ? " repeating: " : "");
             return ss.str();
         }
@@ -141,30 +140,30 @@ namespace ProjectA
         CreateClassType(KeyDown)
     
     private:
-        Keycode m_Code;
+        Key::Key m_Key;
         bool m_Repeating = false;
     };
 
     class EventKeyUp : public Event
     {
     public:
-        EventKeyUp(AWindowID windowID, Keycode key)
-            : Event(windowID), m_Code(key) { }
+        EventKeyUp(AWindowID windowID, Key::Key key)
+            : Event(windowID), m_Key(key) { }
 
-        Keycode Key() const { return m_Code; }
+        Key::Key Key() const { return m_Key; }
 
 
         std::string ToString() const override
         {
             std::stringstream ss;
-            ss << GetName() << " Key: " << KeycodeToString(m_Code);
+            ss << GetName() << " Key: " << Key::ToString(m_Key);
             return ss.str();
         }
 
         CreateClassType(KeyUp)
     
     private:
-        Keycode m_Code;
+        Key::Key m_Key;
     };
 
     class EventMouseButtonDown : public Event

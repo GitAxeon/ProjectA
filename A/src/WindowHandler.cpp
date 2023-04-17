@@ -1,16 +1,16 @@
-#include "StaticWindowHandler.hpp"
+#include "WindowHandler.hpp"
 #include "Event.hpp"
 
 #include <SDL3/SDL_events.h>
 
 namespace ProjectA
 {
-    void StaticWindowHandler::Configure(const Configuration& configuration)
+    void WindowHandler::Configure(const Configuration& configuration)
     {
         m_Configuration = configuration;
     }
 
-    Window* StaticWindowHandler::CreateWindow(const WindowInfo& info)
+    Window* WindowHandler::CreateWindow(const WindowInfo& info)
     {
         // Dno if one should check wether/ or not the sdl window is null or something 
         Window* window = new Window(info);
@@ -21,7 +21,7 @@ namespace ProjectA
         return window;
     }
 
-    void StaticWindowHandler::DispatchEvents()
+    void WindowHandler::DispatchEvents()
     {
         SDL_Event sdlEvent;
         while(SDL_PollEvent(&sdlEvent))
@@ -37,7 +37,7 @@ namespace ProjectA
         }
     }
 
-    void StaticWindowHandler::DispatchEvent(Event* event)
+    void WindowHandler::DispatchEvent(Event* event)
     {
         SDL_WindowID id = event->WindowID();
 
@@ -64,7 +64,7 @@ namespace ProjectA
         }
     }
 
-    void StaticWindowHandler::Run()
+    void WindowHandler::Run()
     {
         while(m_Windows.size() > 0)
         {
@@ -87,7 +87,7 @@ namespace ProjectA
         }
     }
 
-    void StaticWindowHandler::ReleaseClosedWindows()
+    void WindowHandler::ReleaseClosedWindows()
     {
         for(auto it = m_Windows.begin(); it != m_Windows.end(); )
         {
@@ -104,7 +104,7 @@ namespace ProjectA
         m_WindowCloseRequested = false;
     }
 
-    void StaticWindowHandler::CloseAllWindows()
+    void WindowHandler::CloseAllWindows()
     {
         m_WindowCloseRequested = true;
 

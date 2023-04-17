@@ -1,5 +1,7 @@
 #include "Event.hpp"
 
+#include <tuple>
+
 namespace ProjectA
 {
     std::tuple<float, float> MousePosition()
@@ -19,18 +21,6 @@ namespace ProjectA
             case SDL_BUTTON_MIDDLE: return MouseButton::Middle;
             default: return MouseButton::Unknown;
         }
-    }
-
-    Keycode SDLKeycodeToKeycode(const SDL_Keycode k)
-    {
-        auto it = KeyMapping.find(k);
-
-        if(it != KeyMapping.end())
-        {
-            return it->second;
-        }
-
-        return Keycode::Unknown;
     }
 
     AWindowID GetEventTargetWindowID(const SDL_Event& event)
@@ -86,10 +76,10 @@ namespace ProjectA
                 return new EventMouseButtonUp(id, SDLButtonToMouseButton(e.button.button));
             
             case SDL_EVENT_KEY_DOWN:
-                return new EventKeyDown(id, SDLKeycodeToKeycode(e.key.keysym.sym), e.key.repeat);
+                return new EventKeyDown(id, Key::FromSDLKeycode(e.key.keysym.sym), e.key.repeat);
             
             case SDL_EVENT_KEY_UP:
-                return new EventKeyUp(id, SDLKeycodeToKeycode(e.key.keysym.sym));
+                return new EventKeyUp(id, Key::FromSDLKeycode(e.key.keysym.sym));
             
             default:
                 return nullptr;
