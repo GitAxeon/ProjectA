@@ -22,6 +22,7 @@ namespace ProjectA
         static Window* CreateWindow(const WindowInfo& info);
         static void CloseAllWindows();
         static void Run();
+        static void RequestWindowClose();
 
     private:
         WindowHandler() = default;

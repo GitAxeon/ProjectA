@@ -87,6 +87,12 @@ namespace ProjectA
         }
     }
 
+
+    void WindowHandler::RequestWindowClose()
+    {
+        m_WindowCloseRequested = true;
+    }
+
     void WindowHandler::ReleaseClosedWindows()
     {
         for(auto it = m_Windows.begin(); it != m_Windows.end(); )

@@ -4,6 +4,7 @@
 #include <SDL3/SDL_mixer.h>
 
 #include <cassert>
+#include <iostream>
 
 namespace ProjectA
 {
@@ -20,7 +21,7 @@ namespace ProjectA
     
     void Deinit()
     {   
-        SDL_Quit();
         Mix_CloseAudio();
+        SDL_Quit();
     }
 }

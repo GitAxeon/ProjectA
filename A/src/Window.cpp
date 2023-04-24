@@ -35,6 +35,7 @@ namespace ProjectA
     void Window::Close()
     {
         m_IsOpen = false;
+        WindowHandler::RequestWindowClose();
     }
 
     void Window::Resize(uint32_t width, uint32_t height)
