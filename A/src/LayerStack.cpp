@@ -23,7 +23,7 @@ namespace ProjectA
     void LayerStack::Pop()
     {
         if(m_Layers.size() == 0)
-            return
+            return;
             
         m_Layers[m_Layers.size() - 1]->OnDetach();
         m_Layers.pop_back();

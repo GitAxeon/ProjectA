@@ -26,14 +26,14 @@ namespace ProjectA
         SDL_Event sdlEvent;
         while(SDL_PollEvent(&sdlEvent))
         {
-            Event* evnt = TranslateEvent(sdlEvent);
+            Event* event = TranslateEvent(sdlEvent);
             
-            if(evnt != nullptr)
+            if(event != nullptr)
             {
-                DispatchEvent(evnt);
+                DispatchEvent(event);
             }
 
-            delete evnt;
+            delete event;
         }
     }
 

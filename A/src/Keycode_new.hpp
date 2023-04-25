@@ -52,7 +52,7 @@
 
 namespace ProjectA::Key
 {
-    enum class Key
+    enum Key
     {
         #define X(name, value, sdl_value) name,
         KEY_INFO

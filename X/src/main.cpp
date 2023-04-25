@@ -15,21 +15,15 @@ int main(int argc, char** argv)
             {
                 case ProjectA::EventType::KeyDown:
                 {
-                    auto ptr = ProjectA::Event::Cast<ProjectA::EventKeyDown>(event);
-                
-                    if(ptr->Key() == ProjectA::Key::Key::P)
+                    auto evnt = ProjectA::Event::Cast<ProjectA::EventKeyDown>(event);
+
+                    if(evnt->KeyEquals(ProjectA::Key::Key::P) && evnt->NotRepeating())
                     {
                         ProjectA::Window* wnd = ProjectA::WindowHandler::CreateWindow({ "Test", 700, 320 });
                         ProjectA::Window::AddLayer<DemoLayer>(wnd);
                     }
+
                 } break;
-                // case ProjectA::EventType::MouseButtonDown:
-                // {
-                //     auto position = ProjectA::MousePosition();
-                //     float mouseX = std::get<0>(position);
-                //     float mouseY = std::get<1>(position);
-                //     std::cout << "Mouse position: " << mouseX << ", " << mouseY << "\n";
-                // } break;
                 case ProjectA::EventType::MouseButtonDown:
                 {
                     auto [mouseX, mouseY] = ProjectA::MousePosition();

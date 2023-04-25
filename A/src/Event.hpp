@@ -126,8 +126,10 @@ namespace ProjectA
             : Event(windowID), m_Key(key), m_Repeating(repeating) { }
 
         Key::Key Key() const { return m_Key; }
+        bool KeyEquals(Key::Key key) const { return key == m_Key; }
+
         bool Repeating() const { return m_Repeating; }
-        
+        bool NotRepeating() const { return !m_Repeating; }
 
         std::string ToString() const override
         {
@@ -151,7 +153,7 @@ namespace ProjectA
             : Event(windowID), m_Key(key) { }
 
         Key::Key Key() const { return m_Key; }
-
+        bool KeyEquals(Key::Key key) const { return key == m_Key; }
 
         std::string ToString() const override
         {
@@ -174,12 +176,13 @@ namespace ProjectA
 
         MouseButton Button() const { return m_Button; }
         bool Repeating() const { return m_Repeating; }
+        bool NotRepeating() const { return !m_Repeating; }
 
         std::string ToString() const override
         {
             std::stringstream ss;
             ss << GetName() << " Button: " << MouseButtonID(m_Button);
-            ss << (m_Repeating ? " repeating." : "");
+            ss << (m_Repeating ? " Repeating" : "");
             return ss.str();
         }
 
@@ -197,7 +200,6 @@ namespace ProjectA
             : Event(windowID), m_Button(button) { }
 
         MouseButton Button() const { return m_Button; }
-        
 
         std::string ToString() const override
         {
