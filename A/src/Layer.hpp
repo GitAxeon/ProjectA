@@ -11,8 +11,7 @@ namespace ProjectA
     class Layer
     {
     public:
-        Layer() : m_Window(nullptr) { }
-        Layer(Window* window) : m_Window(window) { }
+        Layer() { }
 
         virtual ~Layer() { }
         
@@ -26,8 +25,13 @@ namespace ProjectA
         virtual void OnUIRender()               {}
 
         Window* GetWindow() const { return m_Window; }
+    
+    private:
+        void SupplyWindow(Window* window) { m_Window = window; }
         
     private:
-        Window* m_Window;
+        Window* m_Window = nullptr;
+        
+        friend class Window;
     };
 }

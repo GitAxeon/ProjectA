@@ -4,11 +4,14 @@
 
 int main(int argc, char** argv)
 {
+    class Renderer
+    {
+        Renderer() = default;
+    };
+
     class DemoLayer : public ProjectA::Layer
     {
     public:
-        DemoLayer(ProjectA::Window* wnd) : ProjectA::Layer(wnd) { }
-
         void OnEvent(ProjectA::Event* event)
         {
             switch(event->GetType())
@@ -19,11 +22,13 @@ int main(int argc, char** argv)
 
                     if(evnt->KeyEquals(ProjectA::Key::Key::P) && evnt->NotRepeating())
                     {
+                        std::cout << GetWindow()->Title() << "\n";
                         ProjectA::Window* wnd = ProjectA::WindowHandler::CreateWindow({ "Test", 700, 320 });
                         ProjectA::Window::AddLayer<DemoLayer>(wnd);
                     }
 
                 } break;
+                
                 case ProjectA::EventType::MouseButtonDown:
                 {
                     auto [mouseX, mouseY] = ProjectA::MousePosition();
@@ -39,16 +44,16 @@ int main(int argc, char** argv)
             // ProjectA::Renderer::Idk(m_Image);
             // ProjectA::Render(m_Image);
             // ProjectA::Render2D(m_Image);
+            // m_Renderer.Draw({120, 130}, m_Image);
         }
 
     private:
         Image m_Image;
+        //Shared<Renderer> m_Renderer;
     };
 
     class TestLayer : public ProjectA::Layer
     {
-    public:
-        TestLayer(ProjectA::Window* wnd) : ProjectA::Layer(wnd) { }
     };
 
     ProjectA::Init();
@@ -60,6 +65,9 @@ int main(int argc, char** argv)
 
     ProjectA::Window* MainWindow = ProjectA::WindowHandler::CreateWindow({ "Main Window", 700, 320 });
     ProjectA::Window::AddLayer<TestLayer, DemoLayer>(MainWindow);
+
+    ProjectA::WindowHandler::CreateWindow({"Vulkan", 700, 320, ProjectA::Render::API::Vulkan});
+    ProjectA::WindowHandler::CreateWindow({"OpenGL", 700, 320, ProjectA::Render::API::OpenGL});
 
     ProjectA::WindowHandler::Run();
 

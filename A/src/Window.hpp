@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LayerStack.hpp"
-#include "Rendering.hpp"
+#include "Graphics/Rendering.hpp"
 
 #include <SDL3/SDL_video.h>
 #include <SDL3/SDL_events.h>
@@ -49,7 +49,7 @@ namespace ProjectA
         {
             auto& layers = anyWindow->GetLayerStack();
             Layer* layer = nullptr;
-            ((layer = new T(anyWindow), layers.Push(layer), layer->OnAttach()), ...);
+            ((layer = new T, layer->SupplyWindow(anyWindow), layers.Push(layer), layer->OnAttach()), ...);
         }
 
         void HandleEvent(Event* event);
