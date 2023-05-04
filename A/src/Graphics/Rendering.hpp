@@ -10,10 +10,24 @@ namespace ProjectA::Render
 
 namespace ProjectA
 {
+    class GraphicsContext
+    {
+    public:
+        // Construct based on api
+        
+        /*
+            Swap
+            Clear
+            etc,,,
+        */
+    private:
+    };
+
     class RenderSystem
     {
     public:
         static Shared<Renderer> CreateRenderer(Render::API api);
+
     private:
     };
 }

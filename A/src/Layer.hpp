@@ -27,11 +27,10 @@ namespace ProjectA
         Window* GetWindow() const { return m_Window; }
     
     private:
+        friend class Window;
         void SupplyWindow(Window* window) { m_Window = window; }
         
     private:
         Window* m_Window = nullptr;
-        
-        friend class Window;
     };
 }

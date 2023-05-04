@@ -7,7 +7,7 @@ namespace ProjectA
     class VulkanRenderer : public Renderer
     {
     public:
-    
+        
     private:
     };
 }

@@ -9,5 +9,5 @@ namespace ProjectA
     public:
 
     private:
-    }
+    };
 }

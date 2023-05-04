@@ -62,6 +62,7 @@ namespace ProjectA
         bool m_IsOpen = true;
         
         LayerStack m_Layers;
-        // RenderingContext m_Context;
+        
+        GraphicsContext m_Context;
     }; 
 }

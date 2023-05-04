@@ -41,10 +41,9 @@ int main(int argc, char** argv)
 
         void OnRender()
         {
-            // ProjectA::Renderer::Idk(m_Image);
-            // ProjectA::Render(m_Image);
-            // ProjectA::Render2D(m_Image);
-            // m_Renderer.Draw({120, 130}, m_Image);
+            // m_Renderer->Target(A::Render::Target::Texture, &m_Image);
+            // m_Renderer->DoAThing(.. some params ..);
+            // m_Renderer->Draw({120, 130}, m_Image);
         }
 
     private:
